@@ -1,7 +1,5 @@
-import { buildSchema } from "type-graphql";
-//import { UserResolver } from "../modules/user/userResolver";
-import { WorkoutPlanResolver } from "../modules/workoutPlan/WorkoutPlanResolver";
 import path from "path";
+import { buildSchema } from "type-graphql";
 export const createSchema = () =>
   buildSchema({
     resolvers: [path.join(__dirname, "../modules/**/*Resolver.ts")],

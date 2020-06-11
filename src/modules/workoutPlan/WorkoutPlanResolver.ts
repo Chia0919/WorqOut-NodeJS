@@ -1,16 +1,29 @@
-import { Arg, Mutation, Resolver, Query } from "type-graphql";
+import {
+  Arg,
+  Ctx,
+  FieldResolver,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+} from "type-graphql";
 import { getManager } from "typeorm";
+import { AppContext } from "../../../src/utils/appContext";
 import {
   ExerciseEntity,
   ExerciseInput,
   SetEntity,
-  SetInput,
   WorkoutPlanEntity,
   WorkoutPlanInput,
 } from "./WorkoutPlanEntity";
 
 @Resolver(() => WorkoutPlanEntity)
 export class WorkoutPlanResolver {
+  @Mutation(() => Boolean)
+  async deleteWorkoutPlan(@Arg("id") id: string) {
+    const deleteWorkout = await WorkoutPlanEntity.delete(id);
+    return deleteWorkout.affected && deleteWorkout.affected > 0 ? true : false;
+  }
   @Mutation(() => Boolean)
   async addWorkoutPlan(
     @Arg("workoutInput") workoutInput: WorkoutPlanInput,
@@ -47,33 +60,6 @@ export class WorkoutPlanResolver {
         }
         break;
       }
-      // let setInput: any = [];
-      // exercise.identifiers.forEach((el) => {
-      //   for (let i = 0; i < exerciseInput.length; i++) {
-      //     exerciseInput[i].setInput.forEach( => {
-      //       setInput.push({
-      //         createdBy: null,
-      //         set: y.set,
-      //         kg: y.kg,
-      //         rep: y.rep,
-      //         exerciseId: el.id,
-      //       });
-      //     });
-      //     if (exerciseInput[i].setInput.length > 1) continue;
-      //   }
-      // exerciseInput.forEach((x) => {
-      //   x.setInput.forEach( => {
-      //     setInput.push({
-      //       createdBy: null,
-      //       set: y.set,
-      //       kg: y.kg,
-      //       rep: y.rep,
-      //       exerciseId: el.id,
-      //     });
-      //   });
-      // });
-      //   return;
-      // });
 
       console.log(Input, "test");
       const set = await trans
@@ -90,5 +76,29 @@ export class WorkoutPlanResolver {
   @Query(() => String)
   async hello() {
     return "Hello World!";
+  }
+  @Query(() => [WorkoutPlanEntity])
+  // @UseMiddleware(isAuth)
+  async getWorkPlan(@Arg("id", { nullable: true }) id: string) {
+    return id
+      ? await WorkoutPlanEntity.find({
+          where: { id },
+        })
+      : await WorkoutPlanEntity.find();
+  }
+
+  @FieldResolver()
+  async exercise(
+    @Root() ex: WorkoutPlanEntity,
+    @Ctx() { workoutPlanLoader }: AppContext
+  ) {
+    return workoutPlanLoader.load(ex.id);
+  }
+}
+@Resolver(() => ExerciseEntity)
+export class ExerciseResolver {
+  @FieldResolver()
+  async set(@Root() set: SetEntity, @Ctx() { setLoader }: AppContext) {
+    return setLoader.load(set.id);
   }
 }

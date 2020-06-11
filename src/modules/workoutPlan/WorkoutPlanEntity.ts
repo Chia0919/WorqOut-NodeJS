@@ -33,7 +33,9 @@ export class ExerciseEntity extends Base {
   @Field()
   @Column("uuid")
   workoutPlanId: string;
-  @ManyToOne(() => WorkoutPlanEntity, (workout) => workout.exercise)
+  @ManyToOne(() => WorkoutPlanEntity, (workout) => workout.exercise, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "workoutPlanId" })
   @Field(() => WorkoutPlanEntity)
   workoutPlan: WorkoutPlanEntity;
@@ -57,7 +59,9 @@ export class SetEntity extends Base {
   @Column("uuid")
   exerciseId: string;
 
-  @ManyToOne(() => ExerciseEntity, (workout) => workout.set)
+  @ManyToOne(() => ExerciseEntity, (workout) => workout.set, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "exerciseId" })
   @Field(() => ExerciseEntity)
   exercise: ExerciseEntity;

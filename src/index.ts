@@ -7,7 +7,7 @@ import { createSchema } from "./utils/Schema";
 import Express from "express";
 import { verify } from "jsonwebtoken";
 import { createConnection } from "typeorm";
-// import { createRefreshToken, createAccessToken } from "./utils/createTokens";
+import { WorkoutPlanLoader, SetLoader } from "./modules/workoutPlan/DataLoader";
 if (process.env.NODE_ENV === "staging") {
   require("custom-env").env("staging");
 } else if (process.env.NODE_ENV === "prod") {
@@ -37,6 +37,8 @@ const server = async () => {
     context: ({ req, res }: any) => ({
       req,
       res,
+      workoutPlanLoader: WorkoutPlanLoader(),
+      setLoader: SetLoader(),
     }),
   });
 
@@ -47,6 +49,7 @@ const server = async () => {
       credentials: true,
     })
   );
+
   app.use(cookieParser());
 
   //#############   Rest End Point for  Refresh Token     ############# //
