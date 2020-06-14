@@ -79,7 +79,7 @@ export class WorkoutPlanResolver {
   }
   @Query(() => [WorkoutPlanEntity])
   // @UseMiddleware(isAuth)
-  async getWorkPlan(@Arg("id", { nullable: true }) id: string) {
+  async getWorkoutPlan(@Arg("id", { nullable: true }) id: string) {
     return id
       ? await WorkoutPlanEntity.find({
           where: { id },

@@ -19,10 +19,6 @@ export class WorkoutPlanEntity extends Base {
   @Field(() => [ExerciseEntity])
   @OneToMany(() => ExerciseEntity, (exercise) => exercise.workoutPlan)
   exercise: ExerciseEntity[];
-
-  // @Field() name(@Root() parent: SubscriptionAccountEntity): string {
-  //     return `${parent.Name} ${parent.AccountNo}`;
-  //   }
 }
 @ObjectType({ implements: Base })
 @Entity({ name: "Exercise" })

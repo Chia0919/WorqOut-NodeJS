@@ -3,10 +3,6 @@ import { buildSchema } from "type-graphql";
 export const createSchema = () =>
   buildSchema({
     resolvers: [path.join(__dirname, "../modules/**/*Resolver.ts")],
-    // resolvers: [WorkoutPlanResolver],
-
-    //dateScalarMode: "isoDate"
-    //Authorization.
 
     authChecker: async (
       { root, args, context, info },
