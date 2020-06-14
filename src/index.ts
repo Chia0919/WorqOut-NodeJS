@@ -26,7 +26,7 @@ const server = async () => {
     ENDPOINT_PATH,
     ENDPOINT_CORS,
   } = process.env;
-  console.log(APP_ENV, APP_Name, ENDPOINT_PORT, "LOL");
+  console.log(APP_ENV, APP_Name, ENDPOINT_PORT, "test");
   //Establish psql conn
   await createConnection();
 
@@ -51,46 +51,6 @@ const server = async () => {
   );
 
   app.use(cookieParser());
-
-  //#############   Rest End Point for  Refresh Token     ############# //
-
-  // app.post("/refresh_token", async (req, res) => {
-  //   const token = req.cookies.hrxId;
-  //   if (!token) {
-  //     console.log("token is not valid " + token);
-  //     return res.send({ ok: false, accessToken: "" });
-  //   }
-
-  //   let payload: any = null;
-  //   try {
-  //     payload = await verify(token, process.env.REFRESH_TOKEN_SECRET!);
-  //   } catch (err) {
-  //     console.log(err);
-  //     return res.send({ ok: false, accessToken: "" });
-  //   }
-  //   console.log("payload :: " + payload.userId);
-  //   //token is valid  and now we have to check against db --> postgres
-  //   const user = await SubscriptionUserEntity.findOne({
-  //     SubscriptionUserId: payload.userId,
-  //   });
-
-  //   if (!user) {
-  //     console.log("User not found");
-  //     return res.send({ ok: false, accessToken: "" });
-  //   }
-
-  //   // will have a token version to invoke token
-  //   // if (user.tokenVersion !== payload.tokenVersion) {
-  //   //   return res.send({ ok: false, accessToken: "" });
-  //   // }
-
-  //   //Referesh Token
-  //   res.cookie("hrxId", createRefreshToken(user), {
-  //     httpOnly: true,
-  //   });
-
-  //   return res.send({ ok: true, accessToken: createAccessToken(user) });
-  // });
 
   apolloServer.applyMiddleware({ app, cors: false, path: ENDPOINT_PATH });
 

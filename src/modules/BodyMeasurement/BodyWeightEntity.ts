@@ -7,7 +7,7 @@ import { Base, BaseInput } from "../base/BaseEntity";
 export class BodyWeightEntity extends Base {
   @CreateDateColumn({ type: "timestamptz" })
   @Field()
-  date: string;
+  date: Date;
 
   @Column("numeric")
   @Field()
