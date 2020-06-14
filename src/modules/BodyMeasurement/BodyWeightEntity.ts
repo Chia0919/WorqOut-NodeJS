@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType } from "type-graphql";
 import { Column, CreateDateColumn, Entity } from "typeorm";
-import { Base } from "../base/BaseEntity";
+import { Base, BaseInput } from "../base/BaseEntity";
 
 @Entity({ name: "BodyWeight" })
 @ObjectType({ implements: Base })
@@ -19,9 +19,10 @@ export class BodyWeightEntity extends Base {
 }
 
 @InputType()
-export class BodyWeightInput implements Partial<BodyWeightEntity> {
+export class BodyWeightInput extends BaseInput
+  implements Partial<BodyWeightEntity> {
   @Field()
-  date: string;
+  date: Date;
 
   @Field()
   weight: number;

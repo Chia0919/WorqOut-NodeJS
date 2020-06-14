@@ -1,4 +1,4 @@
-import { Field, InterfaceType } from "type-graphql";
+import { Field, InterfaceType, InputType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -10,7 +10,7 @@ import {
 // Interface
 @InterfaceType()
 export abstract class Base extends BaseEntity {
-  @Field() //SDL type inout interface GRAPHQL API
+  @Field({ nullable: true })
   @PrimaryGeneratedColumn("uuid") ///
   id: string;
   @CreateDateColumn({ type: "timestamptz" })
@@ -29,4 +29,8 @@ export abstract class Base extends BaseEntity {
   @Column("uuid", { nullable: true })
   @Field({ nullable: true })
   modBy: string;
+}
+@InputType()
+export class BaseInput {
+  @Field({ nullable: true }) id: string;
 }
